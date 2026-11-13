@@ -1,5 +1,3 @@
-[What’s for lunch_.html](https://github.com/user-attachments/files/34801053/What.s.for.lunch_.html)
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
