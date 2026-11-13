@@ -29,14 +29,15 @@
     --accent: #E3A458; --accent-ink: #241505; --border: #38473C; color-scheme: dark;
   }
   * { box-sizing: border-box; }
-  html, body { height: 100%; overflow-x: hidden; width: 100%; }
+  html, body { min-height: 100%; width: 100%; max-width: 100%; overflow-x: clip; }
+  body { min-height: 100vh; min-height: 100svh; }
   body {
     margin: 0; background: var(--bg); color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
-    display: flex; justify-content: center;
+    display: block;
   }
-  .wrap { width: 100%; max-width: 480px; margin: 0 auto; padding: 32px 20px 48px; }
+  .wrap { width: min(100%, 480px); min-width: 0; margin: 0 auto; padding: 32px 20px 48px; }
   h1 { font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 2rem; line-height: 1.15; margin: 0 0 4px; }
   .sub { color: var(--text-dim); margin: 0 0 20px; font-size: 0.95rem; }
   .filter-row { display: flex; gap: 8px; overflow-x: auto; max-width: 100%; padding-bottom: 6px; margin-bottom: 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
@@ -50,12 +51,12 @@
   .pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .row {
     background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px;
-    margin-bottom: 12px; display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px; display: flex; align-items: center; gap: 12px; min-width: 0;
   }
   .row .icon { font-size: 1.4rem; width: 28px; text-align: center; }
-  .row .field { flex: 1; min-width: 0; }
+  .row .field { flex: 1 1 0%; width: 0; min-width: 0; }
   .row label { display: block; font-size: 0.72rem; letter-spacing: .02em; color: var(--text-dim); margin-bottom: 2px; }
-  select { width: 100%; max-width: 100%; border: none; background: transparent; color: var(--text); font-size: 1rem; font-family: inherit; padding: 2px 0; }
+  select { display: block; width: 100%; min-width: 0; max-width: 100%; border: none; background: transparent; color: var(--text); font-size: 1rem; font-family: inherit; padding: 2px 0; }
   select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .shuffle-one {
     background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-dim);
