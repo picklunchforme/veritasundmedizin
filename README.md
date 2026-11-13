@@ -1,4 +1,4 @@
-<we made it easy for you>
+we made it easy for you
 <html lang="en">
 <head>
 <meta charset="UTF-8">
