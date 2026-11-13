@@ -70,6 +70,13 @@
   }
   .btn-main:active { transform: scale(0.98); }
   .btn-main:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+  .add-food { margin: 0 0 24px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); color: var(--text); }
+  .add-food > summary { padding: 14px 16px; font-weight: 600; cursor: pointer; }
+  .add-food form { display: grid; gap: 8px; padding: 0 16px 16px; }
+  .add-food label { margin-top: 6px; font-size: .82rem; color: var(--text-dim); }
+  .add-food input, .add-food textarea, .add-food form select { width: 100%; min-width: 0; border: 1px solid var(--border); border-radius: 8px; padding: 10px; background: var(--bg); color: var(--text); font: inherit; }
+  .add-food-submit { border: 0; border-radius: 10px; padding: 12px; background: var(--accent); color: var(--accent-ink); font: inherit; font-weight: 600; cursor: pointer; }
+  .add-food-note { margin: 0; color: var(--text-dim); font-size: .8rem; }
   .summary { border: 1px dashed var(--border); border-radius: 14px; padding: 18px; background: var(--surface); }
   .summary h2 { font-family: "Fraunces", serif; font-size: 1.1rem; margin: 0 0 2px; }
   .summary .hint { font-size: 0.78rem; color: var(--text-dim); margin: 0 0 10px; }
@@ -134,6 +141,22 @@
   </div>
 
   <button class="btn-main" id="surprise">&#127922; Surprise me</button>
+
+  <details class="add-food">
+    <summary>＋ Add a food option</summary>
+    <form id="addFoodForm">
+      <label for="newCategory">Category</label>
+      <select id="newCategory" required><option value="soup">Soup</option><option value="main">Main</option><option value="side">Side</option><option value="salad">Salad</option></select>
+      <label for="newCuisine">Cuisine</label>
+      <select id="newCuisine" required><option value="turkmen">Turkmen</option><option value="turkish">Turkish</option><option value="russian">Russian</option><option value="mediterranean">Mediterranean</option></select>
+      <label for="newDish">Food name</label>
+      <input id="newDish" type="text" maxlength="80" placeholder="e.g. Pumpkin soup" required>
+      <label for="newIngredients">Ingredients</label>
+      <textarea id="newIngredients" maxlength="300" rows="3" placeholder="e.g. Pumpkin, onion, broth, cream" required></textarea>
+      <button type="submit" class="add-food-submit">Save food option</button>
+      <p class="add-food-note" id="addFoodNote" aria-live="polite">Saved in this browser.</p>
+    </form>
+  </details>
 
   <div class="summary">
     <h2>Today&#8217;s combo</h2>
@@ -258,6 +281,12 @@
   const icons = {soup:"\u{1F372}", main:"\u{1F357}", side:"\u{1F35A}", salad:"\u{1F957}"};
   let activeCuisine = "all";
 
+  const CUSTOM_KEY = "lunch-custom-foods-v1";
+  try {
+    const saved = JSON.parse(localStorage.getItem(CUSTOM_KEY) || "[]");
+    saved.forEach(item => { if (DATA[item.cat] && item.name && item.ing) DATA[item.cat].push({ name: item.name, c: item.c, ing: item.ing, custom: true }); });
+  } catch (e) {}
+
   function getPool(cat){ return activeCuisine === "all" ? DATA[cat] : DATA[cat].filter(d => d.c === activeCuisine); }
   function populate(){
     order.forEach(cat=>{
@@ -303,6 +332,32 @@
     btn.addEventListener("click", ()=> shuffleOne(btn.dataset.cat));
   });
   document.getElementById("surprise").addEventListener("click", shuffleAll);
+  document.getElementById("addFoodForm").addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const cat = document.getElementById("newCategory").value;
+    const name = document.getElementById("newDish").value.trim();
+    const cuisine = document.getElementById("newCuisine").value;
+    const ing = document.getElementById("newIngredients").value.trim();
+    const note = document.getElementById("addFoodNote");
+    if (!name || !ing) return;
+    if (DATA[cat].some(item => item.name.toLowerCase() === name.toLowerCase())) { note.textContent = "That food option already exists in this category."; return; }
+    const item = { name, c: cuisine, ing };
+    DATA[cat].push(item);
+    try {
+      const custom = Object.keys(DATA).flatMap(key => DATA[key].filter(d => d.custom).map(d => ({cat:key,name:d.name,c:d.c,ing:d.ing})));
+      custom.push({cat,name,c:cuisine,ing});
+      localStorage.setItem(CUSTOM_KEY, JSON.stringify(custom));
+      item.custom = true;
+    } catch (err) { note.textContent = "Added for this visit, but browser storage is unavailable."; }
+    const cuisineButton = [...document.querySelectorAll(".pill")].find(b => b.dataset.cuisine === "all");
+    activeCuisine = "all";
+    document.querySelectorAll(".pill").forEach(b => b.classList.toggle("active", b === cuisineButton));
+    populate();
+    document.getElementById(cat).value = name;
+    updateSummary();
+    e.target.reset();
+    note.textContent = "Food option saved in this browser.";
+  });
   document.getElementById("summaryList").addEventListener("click", (e)=>{
     const row = e.target.closest(".combo-row");
     if(row) toggleRow(row);
