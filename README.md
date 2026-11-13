@@ -1,7 +1,16 @@
+[index.html](https://github.com/user-attachments/files/34800532/index.html)
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lunch">
+<meta name="theme-color" content="#F6F3EA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1F2B24" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" id="appleIcon">
 <title>What&#8217;s for lunch?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +45,8 @@
   .filter-row::-webkit-scrollbar { display: none; }
   .pill {
     flex: 0 0 auto; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim);
-    border-radius: 999px; padding: 8px 14px; font-size: 0.85rem; font-family: inherit; cursor: pointer; white-space: nowrap;
+    border-radius: 999px; padding: 10px 16px; font-size: 0.85rem; font-family: inherit; cursor: pointer; white-space: nowrap;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
   }
   .pill.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
   .pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -49,11 +59,15 @@
   .row label { display: block; font-size: 0.72rem; letter-spacing: .02em; color: var(--text-dim); margin-bottom: 2px; }
   select { width: 100%; border: none; background: transparent; color: var(--text); font-size: 1rem; font-family: inherit; padding: 2px 0; }
   select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .shuffle-one { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-dim); padding: 4px; }
+  .shuffle-one {
+    background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-dim);
+    padding: 10px; min-width: 44px; min-height: 44px; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  }
   .shuffle-one:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
   .btn-main {
     width: 100%; border: none; border-radius: 14px; padding: 16px; font-size: 1.05rem; font-weight: 600;
     font-family: inherit; background: var(--accent); color: var(--accent-ink); cursor: pointer; margin: 8px 0 28px;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent; min-height: 48px;
   }
   .btn-main:active { transform: scale(0.98); }
   .btn-main:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
@@ -61,7 +75,10 @@
   .summary h2 { font-family: "Fraunces", serif; font-size: 1.1rem; margin: 0 0 2px; }
   .summary .hint { font-size: 0.78rem; color: var(--text-dim); margin: 0 0 10px; }
   .summary ul { margin: 0; padding-left: 0; list-style: none; }
-  .summary li.combo-row { padding: 8px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .summary li.combo-row {
+    padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  }
   .summary li.combo-row:last-child { border-bottom: none; }
   .combo-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .combo-ing { display: none; margin-top: 6px; font-size: 0.82rem; color: var(--text-dim); line-height: 1.4; }
@@ -299,6 +316,29 @@
 
   populate();
   shuffleAll();
+
+  (function(){
+    try {
+      const c = document.createElement("canvas");
+      c.width = 180; c.height = 180;
+      const ctx = c.getContext("2d");
+      const r = 40;
+      ctx.fillStyle = "#D98E3F";
+      ctx.beginPath();
+      ctx.moveTo(r,0);
+      ctx.arcTo(180,0,180,180,r);
+      ctx.arcTo(180,180,0,180,r);
+      ctx.arcTo(0,180,0,0,r);
+      ctx.arcTo(0,0,180,0,r);
+      ctx.closePath();
+      ctx.fill();
+      ctx.font = "110px serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("\u{1F33F}", 90, 100);
+      document.getElementById("appleIcon").setAttribute("href", c.toDataURL("image/png"));
+    } catch(e) {}
+  })();
 </script>
 </body>
 </html>
