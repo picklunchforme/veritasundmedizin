@@ -1,5 +1,4 @@
-# picklunchforme-[index.html](https://github.com/user-attachments/files/34786639/index.html)
-<!DOCTYPE html>
+# we made it easy for you 
 <html lang="en">
 <head>
 <meta charset="UTF-8">
