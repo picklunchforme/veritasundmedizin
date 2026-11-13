@@ -1,3 +1,5 @@
+[What’s for lunch_.html](https://github.com/user-attachments/files/34801053/What.s.for.lunch_.html)
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -29,17 +31,17 @@
     --accent: #E3A458; --accent-ink: #241505; --border: #38473C; color-scheme: dark;
   }
   * { box-sizing: border-box; }
-  html, body { height: 100%; }
+  html, body { height: 100%; overflow-x: hidden; width: 100%; }
   body {
     margin: 0; background: var(--bg); color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
     display: flex; justify-content: center;
   }
-  .wrap { width: 100%; max-width: 480px; padding: 32px 20px 48px; }
+  .wrap { width: 100%; max-width: 480px; margin: 0 auto; padding: 32px 20px 48px; }
   h1 { font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 2rem; line-height: 1.15; margin: 0 0 4px; }
   .sub { color: var(--text-dim); margin: 0 0 20px; font-size: 0.95rem; }
-  .filter-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 20px; scrollbar-width: none; }
+  .filter-row { display: flex; gap: 8px; overflow-x: auto; max-width: 100%; padding-bottom: 6px; margin-bottom: 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   .filter-row::-webkit-scrollbar { display: none; }
   .pill {
     flex: 0 0 auto; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim);
@@ -55,7 +57,7 @@
   .row .icon { font-size: 1.4rem; width: 28px; text-align: center; }
   .row .field { flex: 1; min-width: 0; }
   .row label { display: block; font-size: 0.72rem; letter-spacing: .02em; color: var(--text-dim); margin-bottom: 2px; }
-  select { width: 100%; border: none; background: transparent; color: var(--text); font-size: 1rem; font-family: inherit; padding: 2px 0; }
+  select { width: 100%; max-width: 100%; border: none; background: transparent; color: var(--text); font-size: 1rem; font-family: inherit; padding: 2px 0; }
   select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .shuffle-one {
     background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-dim);
@@ -78,7 +80,8 @@
     touch-action: manipulation; -webkit-tap-highlight-color: transparent;
   }
   .summary li.combo-row:last-child { border-bottom: none; }
-  .combo-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .combo-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; max-width: 100%; }
+  .combo-head span:first-child { min-width: 0; overflow-wrap: anywhere; word-break: break-word; }
   .combo-ing { display: none; margin-top: 6px; font-size: 0.82rem; color: var(--text-dim); line-height: 1.4; }
   .combo-row.open .combo-ing { display: block; }
   .chev { color: var(--text-dim); transition: transform .15s ease; flex: 0 0 auto; }
